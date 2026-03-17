@@ -150,6 +150,83 @@
       filter: grayscale(0%) opacity(1);
       transform: scale(1.1);
     }
+
+    /* ---------- gallery ---------- */
+    .gallery-item {
+      transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s ease;
+      cursor: pointer;
+    }
+    .gallery-item:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(59,130,246,.15);
+    }
+    .gallery-item img {
+      transition: transform .5s cubic-bezier(.22,1,.36,1);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
+    .gallery-overlay {
+      opacity: 0;
+      transition: opacity .35s ease;
+    }
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    /* Filter tabs */
+    .filter-tab {
+      transition: all .25s ease;
+    }
+    .filter-tab.active {
+      background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(59,130,246,.35);
+    }
+    .filter-tab:not(.active):hover {
+      background: #EFF6FF;
+      color: #3B82F6;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s ease;
+    }
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .lightbox-img {
+      max-height: 85vh;
+      max-width: 90vw;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0,0,0,.5);
+      transition: transform .3s ease;
+    }
+    .lightbox.open .lightbox-img {
+      transform: scale(1);
+    }
+    .lightbox-nav {
+      transition: background .2s ease, transform .15s ease;
+    }
+    .lightbox-nav:hover {
+      background: rgba(255,255,255,.25);
+      transform: scale(1.1);
+    }
+
+    /* Gallery grid animation */
+    .gallery-grid-item {
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .gallery-grid-item.hidden-item {
+      opacity: 0;
+      transform: scale(0.8);
+      position: absolute;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body class="bg-white text-gray-800 antialiased">
@@ -170,6 +247,7 @@
         <a href="#layanan" class="text-sm font-medium text-gray-600 hover:text-brand transition-colors">Cuci AC</a>
         <a href="#layanan" class="text-sm font-medium text-gray-600 hover:text-brand transition-colors">Pasang AC</a>
         <a href="#layanan" class="text-sm font-medium text-gray-600 hover:text-brand transition-colors">Perbaikan AC</a>
+        <a href="#galeri" class="text-sm font-medium text-gray-600 hover:text-brand transition-colors">Galeri</a>
         <a href="#kontak" class="text-sm font-medium text-gray-600 hover:text-brand transition-colors">Kontak</a>
       </nav>
 
@@ -199,6 +277,7 @@
         <a href="#layanan" class="mobile-link block py-3 text-sm font-medium text-gray-700 hover:text-brand transition-colors">❄️ Cuci AC</a>
         <a href="#layanan" class="mobile-link block py-3 text-sm font-medium text-gray-700 hover:text-brand transition-colors border-t border-gray-50">🔧 Perbaikan AC</a>
         <a href="#layanan" class="mobile-link block py-3 text-sm font-medium text-gray-700 hover:text-brand transition-colors border-t border-gray-50">📦 Pasang AC</a>
+        <a href="#galeri" class="mobile-link block py-3 text-sm font-medium text-gray-700 hover:text-brand transition-colors border-t border-gray-50">📸 Galeri</a>
         <a href="#kontak" class="mobile-link block py-3 text-sm font-medium text-gray-700 hover:text-brand transition-colors border-t border-gray-50">📞 Kontak</a>
       </div>
     </nav>
@@ -644,6 +723,133 @@
   </section>
 
   <!-- ============================================================
+       WORK GALLERY SECTION
+       ============================================================ -->
+  <section id="galeri" class="py-16 md:py-24">
+    <div class="mx-auto max-w-7xl px-4 lg:px-8">
+      <div class="mx-auto mb-12 max-w-2xl text-center md:mb-16">
+        <span class="reveal mb-3 inline-block rounded-full bg-brand/10 px-4 py-1 text-xs font-semibold uppercase tracking-wider text-brand">
+          Dokumentasi Pengerjaan
+        </span>
+        <h2 class="reveal mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+          Bukti Nyata Kualitas Kami
+        </h2>
+        <p class="reveal mt-4 text-base text-gray-500 sm:text-lg">
+          Lihat langsung foto-foto asli saat teknisi kami bekerja — dari pembersihan, perbaikan, hingga instalasi AC.
+        </p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="reveal mb-10 flex flex-wrap justify-center gap-3">
+        <button class="filter-tab active rounded-full px-5 py-2 text-sm font-semibold" data-filter="all">Semua</button>
+        <button class="filter-tab rounded-full border border-gray-200 bg-white px-5 py-2 text-sm font-semibold text-gray-600" data-filter="cleaning">🧹 Pembersihan</button>
+        <button class="filter-tab rounded-full border border-gray-200 bg-white px-5 py-2 text-sm font-semibold text-gray-600" data-filter="repair">🔧 Perbaikan</button>
+        <button class="filter-tab rounded-full border border-gray-200 bg-white px-5 py-2 text-sm font-semibold text-gray-600" data-filter="installation">📦 Instalasi</button>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div id="gallery-grid" class="reveal grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Item 1 — Cuci AC -->
+        <div class="gallery-grid-item gallery-item group relative overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-gray-100" data-category="cleaning" data-index="0">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="images/ac_cleaning_work.png" alt="Proses cuci AC oleh teknisi X-TRA COOL" class="h-full w-full object-cover" loading="lazy" />
+          </div>
+          <div class="gallery-overlay absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent p-6">
+            <span class="mb-1 inline-block rounded-full bg-brand/90 px-3 py-1 text-xs font-bold text-white">Pembersihan AC</span>
+            <p class="text-center text-sm font-medium text-white/90">Cuci AC indoor dengan tekanan tinggi — hasil bersih maksimal</p>
+          </div>
+        </div>
+
+        <!-- Item 2 — Perbaikan AC -->
+        <div class="gallery-grid-item gallery-item group relative overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-gray-100" data-category="repair" data-index="1">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="images/ac_repair_work.png" alt="Proses perbaikan AC oleh teknisi X-TRA COOL" class="h-full w-full object-cover" loading="lazy" />
+          </div>
+          <div class="gallery-overlay absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent p-6">
+            <span class="mb-1 inline-block rounded-full bg-brand/90 px-3 py-1 text-xs font-bold text-white">Perbaikan AC</span>
+            <p class="text-center text-sm font-medium text-white/90">Diagnosa & perbaikan komponen AC dengan alat profesional</p>
+          </div>
+        </div>
+
+        <!-- Item 3 — Instalasi AC -->
+        <div class="gallery-grid-item gallery-item group relative overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-gray-100" data-category="installation" data-index="2">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="images/ac_installation_work.png" alt="Proses instalasi AC outdoor oleh teknisi X-TRA COOL" class="h-full w-full object-cover" loading="lazy" />
+          </div>
+          <div class="gallery-overlay absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent p-6">
+            <span class="mb-1 inline-block rounded-full bg-brand/90 px-3 py-1 text-xs font-bold text-white">Instalasi AC</span>
+            <p class="text-center text-sm font-medium text-white/90">Pemasangan unit outdoor AC dengan bracket yang kokoh</p>
+          </div>
+        </div>
+
+        <!-- Item 4 — Filter Cleaning -->
+        <div class="gallery-grid-item gallery-item group relative overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-gray-100" data-category="cleaning" data-index="3">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="images/ac_filter_cleaning.png" alt="Pembersihan filter AC" class="h-full w-full object-cover" loading="lazy" />
+          </div>
+          <div class="gallery-overlay absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent p-6">
+            <span class="mb-1 inline-block rounded-full bg-brand/90 px-3 py-1 text-xs font-bold text-white">Pembersihan Filter</span>
+            <p class="text-center text-sm font-medium text-white/90">Cuci filter AC untuk udara bersih & bebas bakteri</p>
+          </div>
+        </div>
+
+        <!-- Item 5 — Brazing Pipa -->
+        <div class="gallery-grid-item gallery-item group relative overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-gray-100" data-category="installation" data-index="4">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="images/ac_pipe_brazing.png" alt="Proses brazing pipa tembaga AC" class="h-full w-full object-cover" loading="lazy" />
+          </div>
+          <div class="gallery-overlay absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent p-6">
+            <span class="mb-1 inline-block rounded-full bg-brand/90 px-3 py-1 text-xs font-bold text-white">Instalasi Pipa</span>
+            <p class="text-center text-sm font-medium text-white/90">Penyambungan pipa tembaga dengan teknik brazing profesional</p>
+          </div>
+        </div>
+
+        <!-- Item 6 — Hasil Instalasi -->
+        <div class="gallery-grid-item gallery-item group relative overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-gray-100" data-category="installation" data-index="5">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="images/ac_finished_install.png" alt="Hasil instalasi AC baru" class="h-full w-full object-cover" loading="lazy" />
+          </div>
+          <div class="gallery-overlay absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent p-6">
+            <span class="mb-1 inline-block rounded-full bg-brand/90 px-3 py-1 text-xs font-bold text-white">Hasil Instalasi</span>
+            <p class="text-center text-sm font-medium text-white/90">Hasil pemasangan AC rapi dan siap digunakan</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="reveal mt-12 text-center">
+        <p class="mb-4 text-sm text-gray-500">
+          Semua foto di atas adalah dokumentasi asli pengerjaan oleh tim X-TRA COOL.
+        </p>
+        <a href="https://wa.me/6281234567890?text=Halo%20X-TRA%20COOL,%20saya%20tertarik%20dengan%20layanan%20Anda"
+          target="_blank" rel="noopener"
+          class="btn-glow inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand to-brand-light px-7 py-3 text-sm font-semibold text-white shadow-lg">
+          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.571-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          Hubungi Kami Sekarang
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm">
+    <button id="lightbox-close" class="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm" aria-label="Tutup">
+      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <button id="lightbox-prev" class="lightbox-nav absolute left-4 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm" aria-label="Sebelumnya">
+      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <img id="lightbox-img" class="lightbox-img" src="" alt="" />
+    <button id="lightbox-next" class="lightbox-nav absolute right-4 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm" aria-label="Selanjutnya">
+      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <div id="lightbox-caption" class="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-xl bg-black/60 px-5 py-2.5 text-center backdrop-blur-sm">
+      <p id="lightbox-label" class="text-sm font-semibold text-white"></p>
+      <p id="lightbox-desc" class="mt-0.5 text-xs text-white/70"></p>
+    </div>
+  </div>
+
+  <!-- ============================================================
        CONTACT SECTION
        ============================================================ -->
   <section id="kontak" class="py-16 md:py-24">
@@ -784,6 +990,115 @@
     }, { threshold: 0.3 });
 
     countUpElements.forEach(el => countObserver.observe(el));
+
+    // ---------- Gallery Filter ----------
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const galleryItems = document.querySelectorAll('.gallery-grid-item');
+
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Update active tab
+        filterTabs.forEach(t => {
+          t.classList.remove('active');
+          t.classList.add('border', 'border-gray-200', 'bg-white', 'text-gray-600');
+        });
+        tab.classList.add('active');
+        tab.classList.remove('border', 'border-gray-200', 'bg-white', 'text-gray-600');
+
+        const filter = tab.getAttribute('data-filter');
+
+        galleryItems.forEach(item => {
+          if (filter === 'all' || item.getAttribute('data-category') === filter) {
+            item.classList.remove('hidden-item');
+            item.style.position = '';
+          } else {
+            item.classList.add('hidden-item');
+            // Delay setting position absolute for smooth transition
+            setTimeout(() => {
+              if (item.classList.contains('hidden-item')) {
+                item.style.position = 'absolute';
+              }
+            }, 500);
+          }
+        });
+      });
+    });
+
+    // ---------- Lightbox ----------
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxLabel = document.getElementById('lightbox-label');
+    const lightboxDesc = document.getElementById('lightbox-desc');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
+    let currentLightboxIndex = 0;
+    let visibleItems = [];
+
+    function getVisibleItems() {
+      return Array.from(galleryItems).filter(item => !item.classList.contains('hidden-item'));
+    }
+
+    function openLightbox(index) {
+      visibleItems = getVisibleItems();
+      currentLightboxIndex = index;
+      updateLightbox();
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function updateLightbox() {
+      const item = visibleItems[currentLightboxIndex];
+      if (!item) return;
+      const img = item.querySelector('img');
+      const label = item.querySelector('.gallery-overlay span');
+      const desc = item.querySelector('.gallery-overlay p');
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightboxLabel.textContent = label ? label.textContent : '';
+      lightboxDesc.textContent = desc ? desc.textContent : '';
+    }
+
+    function nextLightbox() {
+      currentLightboxIndex = (currentLightboxIndex + 1) % visibleItems.length;
+      updateLightbox();
+    }
+
+    function prevLightbox() {
+      currentLightboxIndex = (currentLightboxIndex - 1 + visibleItems.length) % visibleItems.length;
+      updateLightbox();
+    }
+
+    // Click on gallery items to open lightbox
+    galleryItems.forEach((item) => {
+      item.addEventListener('click', () => {
+        const currentVisible = getVisibleItems();
+        const idx = currentVisible.indexOf(item);
+        openLightbox(idx >= 0 ? idx : 0);
+      });
+    });
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', prevLightbox);
+    lightboxNext.addEventListener('click', nextLightbox);
+
+    // Close on background click
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') nextLightbox();
+      if (e.key === 'ArrowLeft') prevLightbox();
+    });
   </script>
 </body>
 </html>
