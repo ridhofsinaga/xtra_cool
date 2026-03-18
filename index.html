@@ -15,7 +15,7 @@
         extend: {
           fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
           colors: {
-            brand: { DEFAULT: '#3B82F6', light: '#60A5FA', dark: '#2563EB' }
+            brand: { DEFAULT: '#1A3263', light: '#60A5FA', dark: '#2563EB' }
           }
         }
       }
@@ -94,10 +94,12 @@
 
     /* ---------- gradient text ---------- */
     .gradient-text {
-      background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
+      /* Menggunakan #1A3263 (brand) dan #60A5FA (brand-light) agar sama dengan tombol */
+      background: linear-gradient(135deg, #1A3263 0%, #60A5FA 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      display: inline-block; /* Memastikan gradient merender dengan sempurna */
     }
 
     /* ---------- sticky header shadow on scroll ---------- */
@@ -234,13 +236,13 @@
   <!-- ============================================================
        HEADER / NAVBAR
        ============================================================ -->
-  <header id="header" class="fixed inset-x-0 top-0 z-50 bg-white/90 backdrop-blur-md transition-shadow duration-300">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:py-4 lg:px-8">
-      <!-- Logo / Brand -->
-      <a href="#" class="flex items-center gap-2">
-        <span class="text-2xl font-extrabold tracking-tight gradient-text">X-TRA COOL</span>
-        <span class="hidden text-xs font-medium text-gray-400 sm:inline-block">Spesialis AC</span>
-      </a>
+  <header id="header" class="fixed inset-x-0 top-0 z-50 bg-blue-100/95 backdrop-blur-md transition-shadow duration-300">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 lg:px-8">
+    <a href="#" class="flex items-center">
+      <img src="xtracool_nav.png" 
+          alt="X-TRA COOL Logo" 
+          class="h-14 w-auto sm:h-16 md:h-20 lg:h-24 object-contain transition-transform duration-300 hover:scale-105">
+    </a>
 
       <!-- Desktop Nav -->
       <nav class="hidden items-center gap-8 md:flex">
@@ -286,7 +288,7 @@
   <!-- ============================================================
        HERO SECTION
        ============================================================ -->
-  <section id="hero" class="relative overflow-hidden pt-24 md:pt-32">
+  <section id="hero" class="relative overflow-hidden pt-32 md:pt-44 lg:pt-52">
     <!-- Decorative blobs -->
     <div class="pointer-events-none absolute -left-32 -top-32 h-[420px] w-[420px] rounded-full bg-brand/5 blur-3xl"></div>
     <div class="pointer-events-none absolute -right-32 bottom-0 h-[340px] w-[340px] rounded-full bg-brand-light/10 blur-3xl"></div>
@@ -888,11 +890,16 @@
   <!-- ============================================================
        FOOTER
        ============================================================ -->
-  <footer class="border-t border-gray-100 bg-white py-8">
+<footer class="border-t border-gray-100 bg-white py-12">
     <div class="mx-auto max-w-7xl px-4 text-center lg:px-8">
-      <span class="text-lg font-bold gradient-text">X-TRA COOL</span>
-      <p class="mt-1 text-sm text-gray-400">Spesialis Service AC</p>
-      <p class="mt-4 text-xs text-gray-300">&copy; 2026 X-TRA COOL. All rights reserved.</p>
+      <div class="flex justify-center mb-6">
+        <img src="xtracool_nav.png" 
+             alt="X-TRA COOL Logo" 
+             class="h-20 w-auto object-contain transition-transform duration-300 hover:scale-105">
+      </div>
+      
+      <p class="mt-2 text-sm font-semibold text-gray-600">Spesialis Service AC Terpercaya</p>
+      <p class="mt-6 text-xs text-gray-400 tracking-wide">&copy; 2026 X-TRA COOL. All rights reserved.</p>
     </div>
   </footer>
 
